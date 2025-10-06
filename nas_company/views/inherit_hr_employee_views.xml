@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+
+        <record id="inherit_hr_employee_form_view" model="ir.ui.view">
+            <field name="name">inherit.hr.employee.form.view</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='identification_group']" postion="inside">
+                    <field name="employee_code" groups="nas_company.nas_normal_group"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

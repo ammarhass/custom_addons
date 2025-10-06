@@ -1,0 +1,69 @@
+<odoo>
+    <record id="brand_asset_tree_view" model="ir.ui.view">
+        <field name="name">brand.asset.from.view</field>
+        <field name="model">brand.asset.asset</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="model_asset_tree_view" model="ir.ui.view">
+        <field name="name">model.asset.from.view</field>
+        <field name="model">model.asset.asset</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="location_asset_tree_view" model="ir.ui.view">
+        <field name="name">location.asset.from.view</field>
+        <field name="model">location.asset.asset</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="brand_asset_asset_action" model="ir.actions.act_window">
+        <field name="name">Brand Asset</field>
+        <field name="res_model">brand.asset.asset</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="model_asset_asset_action" model="ir.actions.act_window">
+        <field name="name">Model Asset</field>
+        <field name="res_model">model.asset.asset</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="location_asset_asset_action" model="ir.actions.act_window">
+        <field name="name">Location Asset</field>
+        <field name="res_model">location.asset.asset</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <menuitem id="brand_account_asset_asset_list"
+              parent="account.account_management_menu"
+              action="brand_asset_asset_action"
+              sequence="111"
+              groups="nas_company.nas_normal_group"/>
+
+    <menuitem id="model_account_asset_asset_list"
+              parent="account.account_management_menu"
+              action="model_asset_asset_action"
+              sequence="112"
+              groups="nas_company.nas_normal_group"/>
+
+    <menuitem id="location_account_asset_asset_list"
+              parent="account.account_management_menu"
+              action="location_asset_asset_action"
+              sequence="113"
+              groups="nas_company.nas_normal_group"/>
+
+
+</odoo>

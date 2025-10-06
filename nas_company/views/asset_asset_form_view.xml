@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+
+        <record id="inherit_asset_asset_form_view" model="ir.ui.view">
+            <field name="name">inherit.asset.asset.form.view</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="base_accounting_kit.account_asset_asset_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[hasclass('oe_button_box')]" position="after">
+                    <widget name="web_ribbon" title="In Maintenance"
+                            invisible="asset_state != 'maintenance'" bg_color="text-bg-success"/>
+                    <widget name="web_ribbon" title="In Stock"
+                            invisible="asset_state != 'stock'"/>
+
+                    <widget name="web_ribbon" title="With Employee"
+                            invisible="asset_state != 'employee'"/>
+
+                </xpath>
+                <xpath expr="//group[1]//group[2]" position="after">
+                    <group group="nas_company.nas_normal_group">
+                        <field name="asset_state"/>
+                        <field name="brand_id"/>
+                        <field name="model_id"/>
+                        <field name="location_id"/>
+                        <field name="serial_number"/>
+                        <field name="condition"/>
+                        <field name="assigned_employee"/>
+                        <field name="employee_code"/>
+
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_asset_asset_list_view" model="ir.ui.view">
+            <field name="name">inherit.asset.asset.list.view</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="base_accounting_kit.account_asset_asset_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="after">
+                    <field name="asset_state" widget="badge" groups="nas_company.nas_normal_group"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
