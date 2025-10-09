@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_request_view_search" model="ir.ui.view">
+            <field name="name">hr.request.view.search</field>
+            <field name="model">hr.request</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter name="my_hr_request" string="My HR Requests" domain="[('user_id', '=', uid)]"/>
+                    <separator/>
+                    <filter name="Draft" domain="[('status', '=', ('draft'))]"/>
+                    <filter name="waiting_for_approval_of_hr" string="Waiting for Approval of HR"
+                            domain="[('status', '=', ('in_progress'))]"/>
+                    <filter name="approved_and_waiting_to_collect" string="Approved"
+                            domain="[('status', '=', ('approved'))]"/>
+                    <filter name="ready_to_collect" string="Ready"
+                            domain="[('status', '=', ('ready'))]"/>
+
+                    <group expand="1" string="Group By">
+                        <filter name="Employees" context="{'group_by':'employee_id', 'residual_visible':True}"/>
+                        <filter name="Department" context="{'group_by':'department_id', 'residual_visible':True}"/>
+                        <filter name="Job Position" context="{'group_by':'job_position_id', 'residual_visible':True}"/>
+                        <filter name="Status" context="{'group_by':'status','residual_visible':True}"/>
+                    </group>
+
+                </search>
+            </field>
+        </record>
+
+
+        <record id="hr_request_form_view" model="ir.ui.view">
+            <field name="name">Hr.Request.Form.View</field>
+            <field name="model">hr.request</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_confirm" type="object" string="Confirm" class="oe_highlight"
+                                invisible="status != 'draft'"/>
+                        <button name="action_approval_hr" type="object" string="HR Approve" class="oe_highlight"
+                                invisible="status != 'in_progress'"
+                                groups="hr_requests.group_hr_request_officer"/>
+                        <button name="action_second_approve" type="object" string="Final Approve" class="oe_highlight"
+                                invisible="status != 'approved'"
+                                groups="hr_requests.group_hr_request_second_approve"/>
+
+<!--                        <button name="action_ready" type="object" string="Ready" class="oe_highlight"-->
+<!--                                invisible="status != 'second_approved'"-->
+<!--                                groups="hr_requests.group_hr_request_officer"/>-->
+                        <button name="action_reject" type="object" string="Reject" class="oe_highlight"
+                                invisible="status in ['reject', 'ready', 'draft', 'second_approved']"/>
+                        <field name="status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            Type of Request
+                        </h1>
+                        <br/>
+
+                        <group>
+                            <field name="request_type"/>
+                            <br/>
+                        </group>
+                        <h1>
+                            Employee Details
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="employee_id"/>
+                                <field name="department_id"/>
+                                <field name="job_position_id"/>
+                                <field name="user_id"/>
+                                <field name="company_id"/>
+                            </group>
+                            <notebook>
+                                <page string="HR Request Info" invisible="request_type != 'hr_letter'">
+                                    <group>
+                                        <group>
+                                            <field name="directed_to"/>
+                                            <field name="full_name"/>
+                                            <field name="national_id"/>
+                                            <field name="title"/>
+                                        </group>
+                                        <group>
+                                            <field name="starting_date"/>
+                                            <field name="salary"/>
+                                            <field name="Social_insurance_number"/>
+                                            <label for="travel_date_from"
+                                                   string="Travel Dates"/>
+                                            <div class="o_row">
+                                                <span class="text-muted">From</span>
+                                                <field name="travel_date_from" class="oe_inline"
+                                                       widget="daterange"
+                                                       options="{'related_end_date': 'travel_date_to'}"/>
+                                                <span class="text-muted">To</span>
+                                                <field name="travel_date_to" class="oe_inline"
+                                                       widget="daterange"
+                                                       options="{'related_end_date': 'travel_date_from'}"/>
+                                            </div>
+
+                                        </group>
+                                    </group>
+
+                                </page>
+                                <page string="Embassy Letter Info" invisible="request_type != 'embassy_letter'">
+
+                                </page>
+                                <page string="Experience Letter Info" invisible="request_type != 'experience_letter'">
+
+                                </page>
+
+                                <page string="Extra Info">
+                                    <group>
+                                        <group>
+                                            <field name="created_user_id"/>
+                                            <field name="hr_user_id"/>
+                                        </group>
+                                        <group>
+                                            <field name="create_date"/>
+                                            <field name="hr_date"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="New Hire Request Info" invisible="request_type != 'new_hire'">
+                                    <group string="Basic Info" col="3">
+                                        <group col="1">
+                                            <field name="emp_id" string="Employee Id" col="1"/>
+                                            <field name="employee_email" string="Email Address" col="1"/>
+                                        </group>
+                                        <group col="1">
+                                            <field name="full_name" string="Full Name"/>
+                                            <field name="mobile_num" string="Mobile Number"/>
+                                        </group>
+                                        <group col="1">
+                                            <field name="arabic_name" string="Arabic Name"/>
+                                            <field name="company_id"/>
+                                        </group>
+                                        <group>
+                                            <field name="employee_code"/>
+                                        </group>
+                                    </group>
+                                    <group string="Job Information" col="3">
+                                        <group col="1">
+                                            <field name="emp_department_id" string="Department"/>
+                                            <field name="emp_director_manager_id" string="Direct Manager"/>
+                                        </group>
+                                        <group col="1">
+                                            <field name="emp_section" string="Section"/>
+                                            <field name="emp_director_id" string="Direct Manager"/>
+                                        </group>
+                                        <group col="1">
+                                            <field name="emp_position_id" string="Position"/>
+                                            <field name="joining_date" string="Joining Date"/>
+                                        </group>
+                                    </group>
+                                    <group string="Job Information" col="3">
+                                        <group col="1">
+                                            <field name="national_id" string="National ID"/>
+                                            <field name="government" string="Government"/>
+
+                                        </group>
+                                        <group col="1">
+                                            <field name="gender" string="Gender"/>
+                                            <field name="new_hire_status" string="Status"/>
+
+                                        </group>
+                                        <group col="1">
+                                            <field name="nationality" string="Nationality"/>
+
+                                        </group>
+                                    </group>
+                                    <group string="Email Creation">
+                                        <field name="email_creation" string="Email Creation"/>
+                                    </group>
+                                    <group string="Request Items" col="3">
+                                        <group col="1">
+                                            <field name="laptop" string="Laptop"/>
+                                            <field name="mousepad" string="Mouse Pad"/>
+                                            <field name="keyboard" string="Keyboard"/>
+                                        </group>
+                                        <group col="1">
+                                            <field name="headset" string="Headset"/>
+                                            <field name="monitor_stand" string="Monitor stand"/>
+                                            <field name="monitor" string="Monitor"/>
+                                        </group>
+                                        <group col="1">
+                                            <field name="mouse" string="Mouse"/>
+                                            <field name="mobilephone" string="Mobile Phone"/>
+                                        </group>
+                                    </group>
+                                    <group string="Software &amp; Licenses">
+                                        <field name="software_id" placeholder="Select Software Licenses"
+                                               widget="many2many_tags"/>
+                                    </group>
+                                    <group string="Priority">
+                                        <field name="priority"/>
+                                    </group>
+                                    <group string="Notes">
+                                        <field name="notes"/>
+                                    </group>
+                                </page>
+
+                                <page string="Replacement Request" invisible="request_type != 'replace'">
+                                    <group>
+                                        <field name="emp_replacement_id" string="Employee With Asset"/>
+                                    </group>
+                                    <group>
+                                        <field name="replacement_reason" string="Reason For Replacement"/>
+                                    </group>
+                                    <group>
+                                        <field name="replacement_note" string="Additional Notes"/>
+                                    </group>
+                                    <group>
+                                        <field name="priority"/>
+                                    </group>
+
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_request_view_tree" model="ir.ui.view">
+            <field name="name">hr.request.view.tree</field>
+            <field name="model">hr.request</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="request_type"/>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="job_position_id"/>
+                    <field name="user_id"/>
+                    <field name="company_id"/>
+                    <field name="status"/>
+                </list>
+            </field>
+        </record>
+
+
+        <record id="hr_request_action" model="ir.actions.act_window">
+            <field name="name">Hr Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.request</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{"search_default_my_hr_request":1}</field>
+        </record>
+
+        <record id="hr_request_waiting_hr_action" model="ir.actions.act_window">
+            <field name="name">HR Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.request</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{"search_default_waiting_for_approval_of_hr":1}</field>
+        </record>
+
+        <record id="hr_request_approved_hr_action" model="ir.actions.act_window">
+            <field name="name">HR Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.request</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{"search_default_approved_and_waiting_to_collect":1}</field>
+        </record>
+
+
+    </data>
+</odoo>

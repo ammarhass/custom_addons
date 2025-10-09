@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+
+        <record id="software_license_form_view" model="ir.ui.view">
+            <field name="name">software.license.form.view</field>
+            <field name="model">software.licenses</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="name"/>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="software_license_tree_view" model="ir.ui.view">
+            <field name="name">software.license.tree.view</field>
+            <field name="model">software.licenses</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="name"/>
+
+                </list>
+            </field>
+        </record>
+
+        <record id="software_license_action" model="ir.actions.act_window">
+            <field name="name">Software &amp; Licenses</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">software.licenses</field>
+            <field name="view_mode">list</field>
+        </record>
+
+
+    </data>
+</odoo>

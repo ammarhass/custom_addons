@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_hr_request_root" name="HR &amp; Equipment Requests"
+                  action="hr_request_action"/>
+
+        <menuitem id="menu_hr_request"
+                  parent="menu_hr_request_root"
+                  name="HR Requests"
+                  sequence="1"/>
+
+        <menuitem id="menu_hr_submenu_request"
+                  parent="menu_hr_request"
+                  name="Hr Request"
+                  action="hr_request_waiting_hr_action"
+                  sequence="1"/>
+
+        <menuitem id="menu_hr_submenu_request_approval"
+                  parent="menu_hr_request"
+                  name="HR Request Approved"
+                  action="hr_request_approved_hr_action"/>
+
+        <menuitem id="menu_equipment" name="Equipments"
+                  parent="menu_hr_request_root"
+                  action="equipment_request_it_operations.equipment_request_action"/>
+
+        <menuitem id="menu_equipment_equipment"
+                  parent="menu_equipment"
+                  name="Equipments"
+                  sequence="2"/>
+        <menuitem id="menu_equipment_submenu_equipment_request"
+                  parent="menu_equipment_equipment"
+                  name="Equipment Request"
+                  action="equipment_request_it_operations.equipment_request_action"
+                  sequence="1"/>
+        <menuitem id="menu_equipment_submenu_equipment_request_approval"
+                  parent="menu_equipment_equipment"
+                  name="Equipment Request Department Approval"
+                  action="equipment_request_it_operations.equipment_request_approval_dept_action"
+                  groups="equipment_request_it_operations.equipment_request_it_operations_group_department_manager"
+                  sequence="2"/>
+        <menuitem id="menu_equipment_submenu_equipment_request_hr_approval"
+                  parent="menu_equipment_equipment"
+                  name="Equipment Request HR Approval"
+                  action="equipment_request_it_operations.equipment_request_approval_hr_action"
+                  groups="equipment_request_it_operations.equipment_request_it_operations_group_hr_officer"
+                  sequence="3"/>
+        <menuitem id="menu_equipment_submenu_equipment_request_stock_approval"
+                  parent="menu_equipment_equipment"
+                  name="Equipment Request Stock Approval"
+                  action="equipment_request_it_operations.equipment_request_approved_stock_manager_action"
+                  groups="equipment_request_it_operations.equipment_request_it_operations_group_stock_manager"
+                  sequence="4"/>
+        <menuitem id="menu_hr_request_config"
+                  parent="menu_equipment"
+                  name="Configuration"
+                  sequence="3"/>
+        <menuitem id="menu_software_license"
+                  parent="menu_hr_request_config"
+                  name="Software &amp; License"
+                  action=""
+                  sequence="1"/>
+
+
+    </data>
+</odoo>
