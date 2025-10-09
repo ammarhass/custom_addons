@@ -12,7 +12,7 @@
     'website': "http://www.yourcompany.com",
     'category': 'Hidden',
     'version': '18.0.0.1',
-    'depends': ['hr', 'mail', 'equipment_request_it_operations', 'base_tier_validation'],
+    'depends': ['hr', 'mail', 'equipment_request_it_operations'],
     'data': [
         'security/ir.model.access.csv',
         'security/user_groups.xml',
