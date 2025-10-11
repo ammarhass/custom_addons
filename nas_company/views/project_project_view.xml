@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+
+        <record id="inherit_project_project_form_view" model="ir.ui.view">
+            <field name="name">inherit.project.project.form.view</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="replace">
+                    <field name="account_director_ids" string="Account Directors"
+                           groups="nas_company.nas_normal_group" widget="many2many_tags"/>
+                    <field name="account_executive_ids" string="Account Executive"
+                           groups="nas_company.nas_normal_group" widget="many2many_tags"/>
+                    <field name="user_id" string="Project Manager" widget="many2one_avatar_user" readonly="not active"
+                           domain="[('share', '=', False)]" options="{'no_quick_create': True}" groups="!nas_company.nas_normal_group"/>
+
+                </xpath>
+                <xpath expr="//field[@name='date_start']" position="replace">
+                    <!--                    <label for="date_start"-->
+                    <!--                           string="Date"/>-->
+                    <div class="o_row" groups="nas_company.nas_normal_group">
+                        <span class="text-muted">Start Date</span>
+                        <field name="date_start" class="oe_inline"
+                               widget="daterange" options="{'related_end_date': 'date'}"/>
+                        <span class="text-muted">End Date</span>
+                        <field name="date" class="oe_inline"
+                               widget="daterange" options="{'related_end_date': 'date'}"/>
+                    </div>
+                    <field name="date_start" string="Planned Date" widget="daterange"
+                           options='{"end_date_field": "date", "always_range": "1"}' required="date_start or date"
+                           groups="!nas_company.nas_normal_group"/>
+                </xpath>
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <field name="service_type_id"/>
+                    <field name="project_code" string="Project Code"/>
+                    <field name="commercial_register_id" domain="[('partner_id', '=', partner_id)]" string="Commercial" groups="nas_company.nas_normal_group"/>
+                    <field name="commercial_register" groups="nas_company.nas_normal_group"/>
+                    <field name="vat_no" groups="nas_company.nas_normal_group"/>
+                </xpath>
+
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

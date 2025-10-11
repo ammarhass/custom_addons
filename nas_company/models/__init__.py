@@ -5,3 +5,5 @@ from . import account_account
 from . import hr_employee
 from . import asset_management
 from . import account_asset_asset
+from . import project_project
+from . import res_partner

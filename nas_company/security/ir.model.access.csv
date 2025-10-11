@@ -2,3 +2,5 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 brand_account_asset,brand.account.asset,model_brand_asset_asset,,1,1,1,1
 model_account_asset,model.account.asset,model_model_asset_asset,,1,1,1,1
 location_account_asset,location.account.asset,model_location_asset_asset,,1,1,1,1
+commercial_register_access,access.commercial.register,model_commercial_register,,1,1,1,1
+service_type_project_access,service.type.project.access,model_project_service_type,,1,1,1,1

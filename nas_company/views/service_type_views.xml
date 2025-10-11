@@ -1,0 +1,45 @@
+<odoo>
+    <data>
+
+        <record id="project_service_type_form_view" model="ir.ui.view">
+            <field name="name">project.service.type.form.view</field>
+            <field name="model">project.service.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="name"/>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="project_service_type_tree_view" model="ir.ui.view">
+            <field name="name">project.service.type.tree.view</field>
+            <field name="model">project.service.type</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="name"/>
+
+                </list>
+            </field>
+        </record>
+
+        <record id="project_service_type_action" model="ir.actions.act_window">
+            <field name="name">Service Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">project.service.type</field>
+            <field name="view_mode">list</field>
+        </record>
+
+        <menuitem
+                name="Service Type"
+                id="menu_service_type_project"
+                parent="project.menu_project_config"
+                groups="nas_company.nas_normal_group"
+                action="project_service_type_action"
+                sequence="50"/>
+
+
+    </data>
+</odoo>

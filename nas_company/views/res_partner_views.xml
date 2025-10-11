@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+
+        <record id="inherit_res_partner_form_view" model="ir.ui.view">
+            <field name="name">inherit.res.partner.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[last()]" position="after">
+                    <page name="Commercial Details">
+                        <field name="commercial_register_ids">
+                            <list editable="bottom">
+                                <field name="name"/>
+                                <field name="commercial_register"/>
+                                <field name="vat_no"/>
+                            </list>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

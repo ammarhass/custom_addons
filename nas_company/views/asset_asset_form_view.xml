@@ -18,7 +18,7 @@
 
                 </xpath>
                 <xpath expr="//group[1]//group[2]" position="after">
-                    <group group="nas_company.nas_normal_group">
+                    <group groups="nas_company.nas_normal_group">
                         <field name="asset_state"/>
                         <field name="brand_id"/>
                         <field name="model_id"/>
@@ -27,7 +27,6 @@
                         <field name="condition"/>
                         <field name="assigned_employee"/>
                         <field name="employee_code"/>
-
                     </group>
                 </xpath>
             </field>

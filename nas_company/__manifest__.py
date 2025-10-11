@@ -12,7 +12,7 @@
     'website': "http://www.yourcompany.com",
     'category': 'Hidden',
     'version': '18.0.0.1',
-    'depends': ['hr', 'account', 'hr_holidays', 'base_accounting_kit'],
+    'depends': ['hr', 'account', 'hr_holidays', 'base_accounting_kit', 'project'],
     'data': [
         'security/res_groups.xml',
         'security/ir.model.access.csv',
@@ -21,6 +21,9 @@
         'views/asset_asset_form_view.xml',
         'views/asset_management_views.xml',
         'views/inherit_hr_employee_views.xml',
+        'views/project_project_view.xml',
+        'views/service_type_views.xml',
+        'views/res_partner_views.xml',
     ],
     'license': 'LGPL-3',
     'installable': True,
