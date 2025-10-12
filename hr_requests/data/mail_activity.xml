@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="mail_act_action_button" model="mail.activity.type">
+        <field name="name">Hr Request Action</field>
+        <field name="res_model">hr.request</field>
+    </record>
+
+
+    <record id="mail_act_first_approve" model="mail.activity.type">
+        <field name="name">Hr Approve</field>
+        <field name="res_model">hr.request</field>
+    </record>
+
+    <record id="mail_act_second_approve" model="mail.activity.type">
+        <field name="name">final Approve</field>
+        <field name="res_model">hr.request</field>
+    </record>
+
+</odoo>

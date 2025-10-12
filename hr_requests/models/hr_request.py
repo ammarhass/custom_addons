@@ -1,4 +1,6 @@
 from odoo import models, fields, api
+from datetime import datetime, date, timedelta
+
 
 class HrRequest(models.Model):
     _name = "hr.request"
@@ -133,6 +135,7 @@ class HrRequest(models.Model):
                 record.emp_director_id = False
                 record.joining_date = False
                 record.employee_code = False
+
     @api.onchange('employee_code')
     def _onchange_emp_id(self):
         for record in self:
@@ -158,13 +161,22 @@ class HrRequest(models.Model):
         """Confirm Button"""
         self = self.sudo()
         self.write({'status': 'in_progress'})
+        activity_type = self.env.ref('hr_requests.mail_act_first_approve')
+        model = self.env['ir.model']._get('hr.request')
+        activity_obj = self.env['mail.activity']
+
         users = self.env.ref("hr_requests.group_hr_request_officer").users
         for user in users:
-            self.activity_schedule(
-                'mail.mail_activity_data_todo',
-                user_id=user.id,
-                summary="Please Check the HR Request",
-            )
+            if user:
+                activity_vals = {
+                    'activity_type_id': activity_type.id,
+                    'note': "for reviewing Hr Request",
+                    'user_id': user.id,
+                    'res_id': self.id,
+                    'res_model_id': model.id,
+                    'date_deadline': datetime.today().date(),
+                }
+                activity_obj.sudo().create(activity_vals)
 
     def action_reject(self):
         """Reject Button"""
@@ -176,18 +188,40 @@ class HrRequest(models.Model):
         and Date he approved"""
         self.write({'status': 'approved', 'hr_user_id': self.env.user.id,
                     'hr_date': fields.Date.today()})
+        activity_to_do = self.env.ref('hr_requests.mail_act_first_approve').id
+        activity_users = self.env.ref("hr_requests.group_hr_request_officer").users
+        activity_id = self.env['mail.activity'].search(
+            [('res_id', '=', self.id), ('user_id', 'in', activity_users.ids),
+             ('activity_type_id', '=', activity_to_do)])
+        activity_id.action_feedback(feedback='Approved')
+        activity_type = self.env.ref('hr_requests.mail_act_second_approve')
+        model = self.env['ir.model']._get('hr.request')
+        activity_obj = self.env['mail.activity']
+
         users = self.env.ref("hr_requests.group_hr_request_second_approve").users
         for user in users:
-            self.activity_schedule(
-                'mail.mail_activity_data_todo',
-                user_id=user.id,
-                summary="Please Check the HR Request",
-            )
+            if user:
+                activity_vals = {
+                    'activity_type_id': activity_type.id,
+                    'note': "for reviewing Hr Request",
+                    'user_id': user.id,
+                    'res_id': self.id,
+                    'res_model_id': model.id,
+                    'date_deadline': datetime.today().date(),
+                }
+                activity_obj.sudo().create(activity_vals)
 
     def action_second_approve(self):
         """HR Approval Button also write the user who Approved this button
         and Date he approved"""
         self.write({'status': 'second_approved'})
+        activity_to_do = self.env.ref('hr_requests.mail_act_second_approve').id
+        activity_users = self.env.ref("hr_requests.group_hr_request_second_approve").users
+        activity_id = self.env['mail.activity'].search(
+            [('res_id', '=', self.id), ('user_id', 'in', activity_users.ids),
+             ('activity_type_id', '=', activity_to_do)])
+        activity_id.action_feedback(feedback='Approved')
+
 
 
     def action_ready(self):

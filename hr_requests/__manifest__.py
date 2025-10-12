@@ -19,6 +19,7 @@
         'views/hr_requests_views.xml',
         'views/software_license_view.xml',
         'views/menus.xml',
+        'data/mail_activity.xml',
     ],
     'license': 'LGPL-3',
     'installable': True,
