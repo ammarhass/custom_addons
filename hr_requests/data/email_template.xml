@@ -1,0 +1,69 @@
+<odoo>
+    <data>
+        <record id="send_hr_request_mail_hr_approve" model="mail.template">
+            <field name="name">Approval: Hr Request Approved</field>
+            <field name="model_id" ref="hr_requests.model_hr_request"/>
+            <field name="subject">Approve HR Request</field>
+            <field name="email_from">{{(object.company_id.email_formatted)}}</field>
+            <field name="partner_to">{{ object.get_recipient_partner_ids() }}</field>
+
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;">
+                    <p style="margin:0px;padding:0px;font-size:13px;">
+                        Dears,
+                        <br/>
+                        HR Request For Employee
+                        <t t-esc="object.emp_id.name"/>
+                        has been created and needs to be approved by HR
+                    </p>
+                </div>
+
+            </field>
+
+        </record>
+
+        <record id="send_hr_request_mail_second_approve" model="mail.template">
+            <field name="name">Approval: Final Request Approved</field>
+            <field name="model_id" ref="hr_requests.model_hr_request"/>
+            <field name="subject">Second Request Approval</field>
+            <field name="email_from">{{(object.company_id.email_formatted)}}</field>
+            <field name="partner_to">{{ object.get_second_approval_recipient_ids() }}</field>
+
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;">
+                    <p style="margin:0px;padding:0px;font-size:13px;">
+                        Dears,
+                        <br/>
+                        HR Request For Employee
+                        <t t-esc="object.emp_id.name"/>
+                        has been Approved By HR
+                    </p>
+                </div>
+
+            </field>
+
+        </record>
+
+        <record id="send_hr_request_employee_approve" model="mail.template">
+            <field name="name">Approval: HR Request Approved</field>
+            <field name="model_id" ref="hr_requests.model_hr_request"/>
+            <field name="subject">HR Request Approval</field>
+            <field name="email_from">{{(object.company_id.email_formatted)}}</field>
+            <field name="partner_to">{{ object.emp_id.work_email }}</field>
+
+            <field name="body_html" type="html">
+                <div style="margin:0px;padding:0px;">
+                    <p style="margin:0px;padding:0px;font-size:13px;">
+                        Dears,
+                        <br/>
+                        Your HR Request has been approved
+                    </p>
+                </div>
+
+            </field>
+
+        </record>
+
+
+    </data>
+</odoo>

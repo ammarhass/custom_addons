@@ -20,6 +20,7 @@
         'views/software_license_view.xml',
         'views/menus.xml',
         'data/mail_activity.xml',
+        'data/email_template.xml',
     ],
     'license': 'LGPL-3',
     'installable': True,

@@ -157,10 +157,24 @@ class HrRequest(models.Model):
                 record.request_type) + ' - ' + str(
                 fields.date.today())
 
+    def get_recipient_partner_ids(self):
+        group = self.env.ref('hr_requests.group_hr_request_officer')
+        partner_ids = group.users.mapped('partner_id').ids
+        return ','.join(str(pid) for pid in partner_ids)
+
+    def get_second_approval_recipient_ids(self):
+        group = self.env.ref('hr_requests.group_hr_request_second_approve')
+        partner_ids = group.users.mapped('partner_id').ids
+        return ','.join(str(pid) for pid in partner_ids)
+
+
     def action_confirm(self):
         """Confirm Button"""
         self = self.sudo()
         self.write({'status': 'in_progress'})
+        hr_mail_template = self.env.ref('hr_requests.send_hr_request_mail_hr_approve')
+        hr_mail_template.send_mail(self.id, force_send=True, email_values={'res_id': self.id})
+
         activity_type = self.env.ref('hr_requests.mail_act_first_approve')
         model = self.env['ir.model']._get('hr.request')
         activity_obj = self.env['mail.activity']
@@ -188,6 +202,9 @@ class HrRequest(models.Model):
         and Date he approved"""
         self.write({'status': 'approved', 'hr_user_id': self.env.user.id,
                     'hr_date': fields.Date.today()})
+        second_approve_mail_template = self.env.ref('hr_requests.send_hr_request_mail_second_approve')
+        second_approve_mail_template.send_mail(self.id, force_send=True, email_values={'res_id': self.id})
+
         activity_to_do = self.env.ref('hr_requests.mail_act_first_approve').id
         activity_users = self.env.ref("hr_requests.group_hr_request_officer").users
         activity_id = self.env['mail.activity'].search(
@@ -215,6 +232,9 @@ class HrRequest(models.Model):
         """HR Approval Button also write the user who Approved this button
         and Date he approved"""
         self.write({'status': 'second_approved'})
+        second_approve_mail_template = self.env.ref('hr_requests.send_hr_request_employee_approve')
+        second_approve_mail_template.send_mail(self.id, force_send=True, email_values={'res_id': self.id})
+
         activity_to_do = self.env.ref('hr_requests.mail_act_second_approve').id
         activity_users = self.env.ref("hr_requests.group_hr_request_second_approve").users
         activity_id = self.env['mail.activity'].search(
