@@ -6,10 +6,15 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//group[@name='identification_group']" postion="inside">
+                <xpath expr="//group[@name='identification_group']" position="inside">
                     <field name="employee_code" groups="nas_company.nas_normal_group"/>
+                </xpath>
+                <xpath expr="//field[@name='coach_id']" position="after">
+                    <field name="team_id" widget="many2one_avatar_user"/>
                 </xpath>
             </field>
         </record>
     </data>
 </odoo>
+
+<!--<field name="coach_id" widget="many2one_avatar_user"-->

@@ -1,0 +1,48 @@
+<odoo>
+    <data>
+
+        <record id="employee_team_form_view" model="ir.ui.view">
+            <field name="name">employee.team.form.view</field>
+            <field name="model">task.unit.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="name"/>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="employee_team_tree_view" model="ir.ui.view">
+            <field name="name">employee.team.tree.view</field>
+            <field name="model">employee.team</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="name"/>
+
+                </list>
+            </field>
+        </record>
+
+        <record id="employee_team_action" model="ir.actions.act_window">
+            <field name="name">Employee Team</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">employee.team</field>
+            <field name="view_mode">list</field>
+        </record>
+
+        <menuitem id="root_menu_employee_team" parent="hr.menu_human_resources_configuration" name="Team"
+                  groups="nas_company.nas_normal_group"
+        />
+        <menuitem
+                name="Team"
+                id="menu_employee_team"
+                parent="root_menu_employee_team"
+                groups="nas_company.nas_normal_group"
+                action="employee_team_action"
+                sequence="55"/>
+
+
+    </data>
+</odoo>

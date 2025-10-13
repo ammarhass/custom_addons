@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+
+        <record id="task_type_form_view" model="ir.ui.view">
+            <field name="name">task.type.form.view</field>
+            <field name="model">task.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="calendar"/>
+                            <field name="user_can_edit"/>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="task_type_tree_view" model="ir.ui.view">
+            <field name="name">task.type.tree.view</field>
+            <field name="model">task.type</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name"/>
+
+                </list>
+            </field>
+        </record>
+
+        <record id="task_type_action" model="ir.actions.act_window">
+            <field name="name">Task Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">task.type</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem
+                name="Task Type"
+                id="menu_task_type_project"
+                parent="project.menu_project_config"
+                groups="nas_company.nas_normal_group"
+                action="task_type_action"
+                sequence="60"/>
+
+
+    </data>
+</odoo>

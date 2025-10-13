@@ -7,3 +7,4 @@ from . import asset_management
 from . import account_asset_asset
 from . import project_project
 from . import res_partner
+from . import project_task

@@ -1,0 +1,34 @@
+<odoo>
+    <data>
+
+        <record id="inherit_project_task_form_view" model="ir.ui.view">
+            <field name="name">inherit.project.task.form.view</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_deadline']" position="replace">
+                    <field name="date_deadline" string="Due Date" groups="nas_company.nas_normal_group"
+                           decoration-danger="date_deadline and date_deadline &lt; current_date and state not in ['1_done', '1_canceled']"/>
+                    <field name="date_deadline" nolabel="1" groups="!nas_company.nas_normal_group"
+                           decoration-danger="date_deadline and date_deadline &lt; current_date and state not in ['1_done', '1_canceled']"/>
+
+                </xpath>
+                <xpath expr="//field[@name='user_ids']" position="after">
+                    <field name="team_id" string="Team" groups="nas_company.nas_normal_group"/>
+                    <field name="unit_id"/>
+                    <field name="task_type_id" string="Task Type"/>
+                    <field name="quantity"/>
+                </xpath>
+                <xpath expr="//h1[1]" position="after">
+                    <h1 class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex w-100">
+                            <field name="reference_number"/>
+                        </div>
+                    </h1>
+
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
