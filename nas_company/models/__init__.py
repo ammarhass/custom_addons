@@ -9,4 +9,4 @@ from . import project_project
 from . import res_partner
 from . import project_task
 from . import project_task_type
-# from . import helpdesk_ticket
+from . import helpdesk_ticket
