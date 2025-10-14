@@ -15,8 +15,50 @@
                     </div>
                 </div>
             </xpath>
-
         </template>
+
+        <template id="edit_task_portal" name="Edit Task Portal">
+            <t t-call="portal.portal_layout">
+                <t t-set="edit_port_task">Edit Portal task</t>
+                <form t-att-action="'/my/task/edit/%s' % (task.id)" method="post"
+                      enctype="multipart/form-data" id="edit_task_portal">
+                    <br/>
+                    <div class="container">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="s_website_form_rows row col-lg-12">
+                            <div class="col-lg-6">
+                                <label class="col-form-label" for="new_stage_label">New Stage</label>
+                                <select name="new_stage_id" id="select_new_stage"
+                                        t-attf-class="form-control">
+                                    <t t-foreach="available_stages" t-as="stage">
+                                        <option t-att-value="stage.id"
+                                                t-att-selected="">
+                                            <t t-esc="stage.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <label class="col-sm-2 col-form-label" for="message">Message</label>
+                            <input type="text" name="message" id="message" class="form-control"/>
+                        </div>
+
+                        <div class="s_website_form_rows row col-lg-12">
+                            <div class="form-group row" style="padding-top:50px;">
+                                <div class="col-md-6 col-lg-6">
+                                    <button type="submit" id="submit" style="width:100px;"
+                                            class="btn btn-primary o_website_form_send o_default_snippet_text">
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </t>
+        </template>
+
 
     </data>
 </odoo>

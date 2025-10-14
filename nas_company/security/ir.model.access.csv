@@ -7,3 +7,5 @@ service_type_project_access,service.type.project.access,model_project_service_ty
 unit_type_task_access,unit.type.task.access,model_task_unit_type,,1,1,1,1
 employee_team_access,employee.team.access,model_employee_team,,1,1,1,1
 task_type_access,task.type.access,model_task_type,,1,1,1,1
+helpdesk_ticket_type_access,helpdesk.ticket.type.access,model_helpdesk_ticket_type,,1,1,1,1
+task_wizard_note_access,task.wizard.note.access,model_task_note_wizard,,1,1,1,1

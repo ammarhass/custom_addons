@@ -12,7 +12,7 @@
     'website': "http://www.yourcompany.com",
     'category': 'Hidden',
     'version': '18.0.0.1',
-    'depends': ['hr', 'account', 'hr_holidays', 'base_accounting_kit', 'project'],
+    'depends': ['hr', 'account', 'hr_holidays', 'base_accounting_kit', 'project', 'helpdesk'],
     'data': [
         'security/res_groups.xml',
         'security/ir.model.access.csv',
@@ -29,8 +29,12 @@
         'views/employee_team_views.xml',
         'views/task_type_views.xml',
         'views/project_task_portal.xml',
+        # 'views/helpdesk_ticket_views.xml',
+        # 'views/helpdesk_ticket_type_views.xml',
+        'wizard/task_notes_wizard_views.xml',
         'data/ir_sequence.xml',
     ],
+
     'license': 'LGPL-3',
     'installable': True,
     'auto_install"': False,

@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <record id="task_note_wizard_form_view" model="ir.ui.view">
+            <field name="name">task.note.wizard.form.view</field>
+            <field name="model">task.note.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="note" required="1"/>
+                        <field name="task_id" invisble="1"/>
+                    </group>
+                     <footer>
+                        <button name="submit_button" type="object" string="Submit"
+                                class="btn-primary"/>
+                        <button string="Cancel" special="cancel" class="btn btn-second"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="task_note_wizard_action" model="ir.actions.act_window">
+            <field name="name">Task Note</field>
+            <field name="res_model">task.note.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="task_note_wizard_form_view"/>
+            <field name="context">{'default_task_id': active_id}</field>
+        </record>
+    </data>
+</odoo>
