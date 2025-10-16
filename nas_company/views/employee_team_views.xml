@@ -3,7 +3,7 @@
 
         <record id="employee_team_form_view" model="ir.ui.view">
             <field name="name">employee.team.form.view</field>
-            <field name="model">task.unit.type</field>
+            <field name="model">employee.team</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>

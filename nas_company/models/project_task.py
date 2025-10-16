@@ -18,9 +18,11 @@ class ProjectTask(models.Model):
             if not task.task_type_id.user_can_edit:
                 if 'stage_id' in vals and vals['stage_id'] != task.stage_id.id:
                     if not task.note_entered:
-                        pass
-                    #     raise ValidationError("You must add a note before changing the stage.")
-                    # vals['note_entered'] = False
+                        raise ValidationError("You must add a note before changing the stage.")
+                    vals['note_entered'] = False
+                    mail_template = self.env.ref('nas_company.send_update_task_mail')
+                    mail_template.send_mail(self.id, force_send=True, email_values={'res_id': self.id})
+
             else:
                 if 'stage_id' in vals and vals['stage_id'] != task.stage_id.id:
                     allowed_user = self.env['res.users'].search([('partner_id', '=', task.partner_id.id)])
@@ -28,9 +30,12 @@ class ProjectTask(models.Model):
                         raise ValidationError(
                             "You are not allowed to change the stage for this task."
                         )
+                    mail_template = self.env.ref('nas_company.send_update_task_mail')
+                    mail_template.send_mail(self.id, force_send=True, email_values={'res_id': self.id})
 
 
         return super(ProjectTask, self).write(vals)
+
 
     def open_note_wizard(self):
         self.ensure_one()

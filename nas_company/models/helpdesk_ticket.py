@@ -25,7 +25,6 @@ class HelpdeskTicket(models.Model):
                 self.email_cc = employee.work_email
                 self.partner_phone = employee.work_phone
 
-
 class HelpdeskType(models.Model):
     _name = 'helpdesk.ticket.type'
 
