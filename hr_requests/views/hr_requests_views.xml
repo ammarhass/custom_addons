@@ -43,11 +43,19 @@
                                 invisible="status != 'approved'"
                                 groups="hr_requests.group_hr_request_second_approve"/>
 
-<!--                        <button name="action_ready" type="object" string="Ready" class="oe_highlight"-->
-<!--                                invisible="status != 'second_approved'"-->
-<!--                                groups="hr_requests.group_hr_request_officer"/>-->
+                        <!--                        <button name="action_ready" type="object" string="Ready" class="oe_highlight"-->
+                        <!--                                invisible="status != 'second_approved'"-->
+                        <!--                                groups="hr_requests.group_hr_request_officer"/>-->
                         <button name="action_reject" type="object" string="Reject" class="oe_highlight"
                                 invisible="status in ['reject', 'ready', 'draft', 'second_approved']"/>
+
+                        <button name="action_internal_transfer" type="object" string="Create Internal Transfer"
+                                class="oe_highlight"
+                                invisible="status != 'second_approved' or request_type != 'replace'"/>
+                        <button name="action_view_internal_transfer" type="object" string="View Internal Transfer"
+                                class="oe_highlight" invisible="status != 'replaced'"/>
+
+
                         <field name="status" widget="statusbar"/>
                     </header>
                     <sheet>
@@ -70,6 +78,11 @@
                                 <field name="job_position_id"/>
                                 <field name="user_id"/>
                                 <field name="company_id"/>
+                                <field name="source_location_id"
+                                       invsible="request_type != 'replace'"/>
+                                <field name="destination_location_id"
+                                       invsible="request_type != 'replace'"/>
+
                             </group>
                             <notebook>
                                 <page string="HR Request Info" invisible="request_type != 'hr_letter'">
@@ -144,7 +157,8 @@
                                             <field name="emp_director_manager_id" string="Direct Manager"/>
                                         </group>
                                         <group col="1">
-                                            <field name="emp_section" string="Section"/>
+<!--                                            <field name="emp_section" string="Section"/>-->
+                                            <field name="section_id" string="Section"/>
                                             <field name="emp_director_id" string="Direct Manager"/>
                                         </group>
                                         <group col="1">
@@ -213,6 +227,16 @@
                                         <field name="priority"/>
                                     </group>
 
+                                </page>
+
+                                <page string="Replacement Products">
+                                    <field name="product_replacement_ids">
+                                        <list editable="bottom">
+                                            <field name="product_id"/>
+                                            <field name="quantity"/>
+                                            <field name="replace"/>
+                                        </list>
+                                    </field>
                                 </page>
                             </notebook>
                         </group>

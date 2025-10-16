@@ -1,3 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_hr_request,hr.request.access,model_hr_request,,1,1,1,1
 access_software_licenses,hr.software.licenses,model_software_licenses,,1,1,1,1
+access_employee_products,employee.products.access,model_employee_products,,1,1,1,1
+access_employee_section,employee.section.access,model_employee_section,,1,1,1,1
+access_replacement_products,replacement.products.access,model_replacement_products,,1,1,1,1

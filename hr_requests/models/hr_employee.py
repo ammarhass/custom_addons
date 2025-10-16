@@ -6,6 +6,8 @@ class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
     joining_date = fields.Date()
+    assigned_product_ids = fields.One2many('employee.products', 'employee_id')
+    section_id = fields.Many2one('employee.section')
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):

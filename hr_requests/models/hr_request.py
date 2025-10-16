@@ -1,5 +1,7 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from datetime import datetime, date, timedelta
+from odoo.exceptions import UserError
+
 
 
 class HrRequest(models.Model):
@@ -53,9 +55,22 @@ class HrRequest(models.Model):
         ('approved', 'Approved'),
         ('second_approved', 'second Approved'),
         # ('ready', 'Ready To Collect'),
-        ('reject', 'Rejected')],
+        ('reject', 'Rejected'),
+        ('replaced', 'Replace')],
         string='State', copy=False, default='draft', tracking=True,
         help="Status of the hr request")
+
+    source_location_id = fields.Many2one('stock.location',
+                                         string='Source Location',
+                                         help="Location from where the "
+                                              "equipment"
+                                              "will be sourced")
+    destination_location_id = fields.Many2one('stock.location',
+                                              string='Destination Location',
+                                              help="Location where the "
+                                                   "equipment"
+                                                   "will be sent")
+
     # status = fields.Selection([
     #     ('draft', 'Draft'),
     #     ('approved', 'Approved'),
@@ -89,6 +104,7 @@ class HrRequest(models.Model):
     joining_date = fields.Date(compute='_compute_employee_data', store=True, readonly=False)
 
     emp_section = fields.Char()
+    section_id = fields.Many2one('employee.section')
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')])
     nationality = fields.Many2one('res.country')
     government = fields.Char()
@@ -112,6 +128,33 @@ class HrRequest(models.Model):
     replacement_reason = fields.Text()
     replacement_note = fields.Text()
     emp_replacement_id = fields.Many2one('hr.employee')
+    product_replacement_ids = fields.One2many('replacement.products', 'request_id')
+    hr_request_internal_ids = fields.One2many('stock.picking',
+                                             'hr_request_id',
+                                             string='Internal Orders',
+                                             help="The internal orders "
+                                                  "related to"
+                                                  "this hr request.")
+
+
+
+    @api.model
+    def create(self, vals):
+        record = super().create(vals)
+        if record.emp_replacement_id and record.request_type == 'replace':
+            if record.emp_replacement_id.assigned_product_ids:
+                product_lines = []
+                for rec in record.employee_id.assigned_product_ids:
+                    product_lines.append((0, 0, {
+                        'product_id': rec.product_id.id,
+                        'assign_date': rec.assign_date,
+                        'request_id': record.id,
+                        'quantity': rec.quantity,
+                        'product_uom_id': rec.product_uom_id.id,
+                        'description': rec.description
+                    }))
+                record.product_replacement_ids = product_lines
+        return record
 
     @api.depends('emp_id')
     def _compute_employee_data(self):
@@ -125,6 +168,7 @@ class HrRequest(models.Model):
                 record.emp_director_id = record.emp_id.coach_id
                 record.joining_date = record.emp_id.joining_date
                 record.employee_code = record.emp_id.employee_code
+                record.section_id = record.emp_id.section_id
             else:
                 # Clear fields if no employee selected
                 record.mobile_num = False
@@ -249,43 +293,55 @@ class HrRequest(models.Model):
         self.write({'status': 'ready'})
 
 
-# activity_obj = self.env['mail.activity']
-# activity_type = self.env.ref('elfayrouz_update.mail_activity_type_waiting_approval_elfayrouz')
-# model = self.env['ir.model']._get('account.move')
-# company = self.env['res.company'].search([('elfayrouz_company', '=', True)])
-#
-# if not upcoming_invoices:
-#     return True
-#
-# notify_group = self.env.ref('elfayrouz_update.elfayrouz_payment_user_group')
-# users_to_notify = notify_group.users
-#
-# if not users_to_notify:
-#     raise UserError("No users in the notification group!")
-#
-# for invoice in upcoming_invoices:
-#     for user in users_to_notify:
-#         activity_vals = {
-#             'activity_type_id': activity_type.id,
-#             'note': "مراجعة موعد سداد الفاتورة.",
-#             'user_id': user.id,
-#             'res_id': invoice.id,
-#             'res_model_id': model.id,
-#             'date_deadline': datetime.today().date(),
-#         }
-#         activity_obj.sudo().create(activity_vals)
+    def action_internal_transfer(self):
+        if not self.source_location_id:
+            raise UserError(_('Source Location is not defined'))
+        if not self.destination_location_id:
+            raise UserError(_('Destination Location is not defined'))
+        picking_type_id = self.env['stock.picking.type'].search(
+            [('code', '=', 'internal')])
+        if not picking_type_id:
+            picking_type_id = self.env['stock.picking.type'].create({
+                'name': 'Internal Transfers',
+                'code': 'internal',
+                'sequence_code': 'INT',
+            })
+        move_vals = {
+            'picking_type_id': picking_type_id.id,
+            'location_id': self.source_location_id.id,
+            'location_dest_id': self.destination_location_id.id,
+            'hr_request_id': self.id,
+        }
+        picking = self.env['stock.picking'].create(move_vals)
+        for value in self.product_replacement_ids.filtered(lambda x: x.replace == True):
+            self.env['stock.move'].create({
+                'picking_id': picking.id,
+                'name': value.product_id.name,
+                'product_id': value.product_id.id,
+                'product_uom_qty': value.quantity,
+                'product_uom': value.product_id.uom_id.id,
+                'location_id': self.source_location_id.id,
+                'location_dest_id': self.destination_location_id.id,
+            })
+        picking.action_confirm()
+        picking.action_assign()
+        self.write({'status': 'replaced'})
 
-
-# activity_to_do = order.env.ref('solace_updates.mail_act_solace_activity').id
-# activity_users = order.env.ref('solace_updates.solace_normal_purchases_group').users
-# activity_id = order.env['mail.activity'].search(
-#     [('res_id', '=', order.id), ('user_id', 'in', activity_users.ids),
-#      ('activity_type_id', '=', activity_to_do)])
-# activity_id.action_feedback(feedback='Approved')
-
-
-
-
+    def action_view_internal_transfer(self):
+        picking_id = self.env['stock.picking'].search([
+            ('picking_type_id.code', '=', 'internal'),
+            ('location_id', '=', self.source_location_id.id),
+            ('location_dest_id', '=', self.destination_location_id.id),
+            ('hr_request_id', '=', self.id)
+        ], limit=1, order='create_date desc')
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Internal Transfer',
+            'view_mode': 'form',
+            'target': 'current',
+            'res_model': 'stock.picking',
+            'res_id': picking_id.id
+        }
 
 
 

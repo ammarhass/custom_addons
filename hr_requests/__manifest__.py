@@ -18,6 +18,8 @@
         'security/user_groups.xml',
         'views/hr_requests_views.xml',
         'views/software_license_view.xml',
+        'views/hr_employee_views.xml',
+        'views/employee_section_views.xml',
         'views/menus.xml',
         'data/mail_activity.xml',
         'data/email_template.xml',
