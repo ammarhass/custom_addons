@@ -29,10 +29,6 @@ class TindexPortalProject(ProjectCustomerPortal):
 
     @staticmethod
     def _return_portal_available_stages(task):
-        if not task.stage_id:
-            return request.env['project.task.type'].sudo().search([
-                ('is_equipment_stage', '=', True)
-            ]).filtered(lambda s: task.parent_id.project_id.id in s.project_ids.ids)
         return task.stage_id.allow_stage_ids
 
 
