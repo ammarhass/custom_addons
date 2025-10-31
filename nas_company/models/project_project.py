@@ -17,7 +17,6 @@ class ProjectProject(models.Model):
     def _check_unique_project_code(self):
         for record in self:
             if record.project_code:
-                # Check if another record with the same project_code exists
                 existing_record = self.search([
                     ('project_code', '=', record.project_code),
                     ('id', '!=', record.id)
@@ -32,7 +31,6 @@ class ProjectProject(models.Model):
     def _check_unique_project_name_per_customer(self):
         for record in self:
             if record.name and record.partner_id:
-                # Check if another project with same name exists for a DIFFERENT customer
                 existing_project = self.search([
                     ('name', '=', record.name),
                     ('partner_id', '!=', record.partner_id.id),

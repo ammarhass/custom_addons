@@ -13,7 +13,6 @@ class HrLeave(models.Model):
                 if self.env.company.allowed_days:
                     if leave.request_date_from:
                         if not self.env.user.has_group('nas_company.nas_access_leave_group'):
-                            # Convert to date object for comparison
                             leave_date = fields.Date.from_string(leave.request_date_from)
                             today = fields.Date.context_today(self)
                             two_days_ago = today - timedelta(days=self.env.company.allowed_days)

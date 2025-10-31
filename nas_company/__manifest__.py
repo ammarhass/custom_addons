@@ -31,9 +31,11 @@
         'views/project_task_portal.xml',
         'views/helpdesk_ticket_views.xml',
         'views/helpdesk_ticket_type_views.xml',
+        'views/incoming_mail_configuration.xml',
         'wizard/task_notes_wizard_views.xml',
         'data/ir_sequence.xml',
         'data/email_template.xml',
+        'data/email_activity.xml',
     ],
 
     'license': 'LGPL-3',

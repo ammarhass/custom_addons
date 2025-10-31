@@ -26,12 +26,12 @@ class ProjectTask(models.Model):
             else:
                 if 'stage_id' in vals and vals['stage_id'] != task.stage_id.id:
                     allowed_user = self.env['res.users'].search([('partner_id', '=', task.partner_id.id)])
-                    if allowed_user and allowed_user != self.env.user:
+                    if not allowed_user or allowed_user != self.env.user:
                         raise ValidationError(
                             "You are not allowed to change the stage for this task."
                         )
-                    mail_template = self.env.ref('nas_company.send_update_task_mail')
-                    mail_template.send_mail(self.id, force_send=True, email_values={'res_id': self.id})
+                    # mail_template = self.env.ref('nas_company.send_update_task_mail')
+                    # mail_template.send_mail(self.id, force_send=True, email_values={'res_id': self.id})
 
 
         return super(ProjectTask, self).write(vals)

@@ -15,6 +15,11 @@
             <field name="category_id" ref="nas_groups_category"/>
         </record>
 
+        <record id="nas_incoming_mail_group" model="res.groups">
+            <field name="name">Nas Ticket Incoming Mail User</field>
+            <field name="category_id" ref="nas_groups_category"/>
+        </record>
+
 
     </data>
 </odoo>

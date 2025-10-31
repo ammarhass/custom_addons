@@ -10,7 +10,6 @@ class HelpdeskTicket(models.Model):
         string='Helpdesk Team',
         index=True,
         tracking=True
-        # default attribute is removed
     )
 
 

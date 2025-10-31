@@ -9,3 +9,5 @@ employee_team_access,employee.team.access,model_employee_team,,1,1,1,1
 task_type_access,task.type.access,model_task_type,,1,1,1,1
 helpdesk_ticket_type_access,helpdesk.ticket.type.access,model_helpdesk_ticket_type,,1,1,1,1
 task_wizard_note_access,task.wizard.note.access,model_task_note_wizard,,1,1,1,1
+incoming_mail_config_access,incoming.mail.config.access,model_incoming_mail_config,,1,1,1,1
+incoming_mail_subject_access,incoming.mail.subject.access,model_incoming_mail_subject,,1,1,1,1

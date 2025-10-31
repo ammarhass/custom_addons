@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <!-- Inherit Form View to Modify it -->
         <record id="inherit_view_company_form_nas" model="ir.ui.view">
             <field name="name">nas.res.company.form</field>
             <field name="model">res.company</field>
