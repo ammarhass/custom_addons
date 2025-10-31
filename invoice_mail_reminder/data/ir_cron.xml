@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_invoice_reminders" model="ir.cron">
+        <field name="name">Process Invoice Reminders</field>
+        <field name="model_id" ref="model_invoice_reminder_cron"/>
+        <field name="state">code</field>
+        <field name="code">model.process_invoice_reminders()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+</odoo>
+
+
+    <!-- Email Templates -->
+<!--    <record id="template_pre_due_reminder" model="mail.template">-->
+<!--        <field name="name">Pre Due Date Reminder</field>-->
+<!--        <field name="model_id" ref="account.model_account_move"/>-->
+<!--        <field name="email_from">${object.company_id.email or ''}</field>-->
+<!--        <field name="email_to">${object.partner_id.email or ''}</field>-->
+<!--        <field name="subject">Invoice Reminder - Payment Due in 1 Week</field>-->
+<!--        <field name="body_html"><![CDATA[-->
+<!--            <p>Dear ${object.partner_id.name},</p>-->
+<!--            <p>This is a friendly reminder that your invoice ${object.name} is due on ${object.invoice_date_due}.</p>-->
+<!--            <p>Total Amount: ${object.amount_total} ${object.currency_id.symbol}</p>-->
+<!--        ]]></field>-->
+<!--    </record>-->
+
+    <!-- Add other templates similarly -->
+
+    <!-- Scheduled Action -->

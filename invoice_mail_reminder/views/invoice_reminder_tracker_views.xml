@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_invoice_reminder_tracker_tree" model="ir.ui.view">
+            <field name="name">invoice.reminder.tracker.tree</field>
+            <field name="model">invoice.reminder.tracker</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="invoice_id"/>
+                    <field name="partner_id"/>
+                    <field name="due_date"/>
+                    <field name="amount_total"/>
+                    <field name="residual"/>
+                    <field name="pre_due_sent"/>
+                    <field name="week1_reminder_sent"/>
+                    <field name="week2_reminders_count"/>
+                    <field name="escalation_reminders_count"/>
+                    <field name="is_active"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_invoice_reminder_tracker_form" model="ir.ui.view">
+            <field name="name">invoice.reminder.tracker.form</field>
+            <field name="model">invoice.reminder.tracker</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="invoice_id"/>
+                                <field name="partner_id"/>
+                                <field name="due_date"/>
+                                <field name="amount_total"/>
+                                <field name="residual"/>
+                                <field name="is_active"/>
+                            </group>
+                            <group>
+                                <field name="pre_due_sent"/>
+                                <field name="invoice_issued_sent"/>
+                                <field name="week1_reminder_sent"/>
+                                <field name="week2_reminders_count"/>
+                                <field name="last_week2_reminder"/>
+                                <field name="escalation_reminders_count"/>
+                                <field name="last_escalation_reminder"/>
+                                <field name="payment_confirmation_sent"/>
+                            </group>
+                        </group>
+
+                        <group string="Recipients">
+                            <group string="Initial Recipients (3 People)">
+                                <field name="initial_recipient_ids" widget="many2many_tags"/>
+                            </group>
+                            <group string="Escalation Recipients (6 People)">
+                                <field name="escalation_recipient_ids" widget="many2many_tags"/>
+                            </group>
+                        </group>
+
+                        <group string="Reminder History">
+<!--                            <label class="o_form_label"/>-->
+                            <div>
+                                <p>Week 2 Reminders Sent: <field name="week2_reminders_count" nolabel="1"/></p>
+                                <p>Last Week 2 Reminder: <field name="last_week2_reminder" nolabel="1"/></p>
+                                <p>Escalation Reminders Sent: <field name="escalation_reminders_count" nolabel="1"/></p>
+                                <p>Last Escalation Reminder: <field name="last_escalation_reminder" nolabel="1"/></p>
+                            </div>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+<!--attrs="{'invisible': [('week2_reminders_count', '=', 0), ('escalation_reminders_count', '=', 0)]}"-->
+
+
+        <record id="view_invoice_reminder_tracker_search" model="ir.ui.view">
+            <field name="name">invoice.reminder.tracker.search</field>
+            <field name="model">invoice.reminder.tracker</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="invoice_id"/>
+                    <field name="partner_id"/>
+                    <filter string="Active" name="active" domain="[('is_active', '=', True)]"/>
+                    <filter string="Inactive" name="inactive" domain="[('is_active', '=', False)]"/>
+                    <filter string="Pre-Due Sent" name="pre_due_sent" domain="[('pre_due_sent', '=', True)]"/>
+                    <filter string="Week 1 Sent" name="week1_sent" domain="[('week1_reminder_sent', '=', True)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Partner" name="partner" context="{'group_by': 'partner_id'}"/>
+                        <filter string="Active Status" name="active_status" context="{'group_by': 'is_active'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_invoice_reminder_tracker" model="ir.actions.act_window">
+            <field name="name">Invoice Reminder Tracker</field>
+            <field name="res_model">invoice.reminder.tracker</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="view_invoice_reminder_tracker_tree"/>
+            <field name="search_view_id" ref="view_invoice_reminder_tracker_search"/>
+            <field name="context">{'search_default_active': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Track all invoice reminder emails and their status
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_invoice_reminder_tracker"
+                  name="Invoice Reminder Tracker"
+                  parent="account.account_management_menu"
+                  action="action_invoice_reminder_tracker"
+                  sequence="200"/>
+    </data>
+</odoo>

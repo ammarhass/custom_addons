@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+salesperson_commission_plan_access,access.salesperson.commission.plan,model_salesperson_commission_plan,,1,1,1,1
+commission_plan_line_access,access.commission.plan.line,model_sales_commission_line,,1,1,1,1
+commission_details_access,access.commission.details.line,model_commission_details,,1,1,1,1
