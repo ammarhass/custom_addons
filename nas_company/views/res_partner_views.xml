@@ -6,6 +6,9 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="before">
+                    <field name="sequence"/>
+                </xpath>
                 <xpath expr="//page[last()]" position="after">
                     <page name="Commercial Details">
                         <field name="commercial_register_ids">
