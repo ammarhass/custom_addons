@@ -12,3 +12,5 @@ from . import project_task_type
 from . import helpdesk_ticket
 from . import mail_message
 from . import incoming_mail_config
+from . import hr_leave_type
+from . import hr_leave

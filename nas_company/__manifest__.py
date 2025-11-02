@@ -32,6 +32,8 @@
         'views/helpdesk_ticket_views.xml',
         'views/helpdesk_ticket_type_views.xml',
         'views/incoming_mail_configuration.xml',
+        'views/hr_leave_type.xml',
+        'views/hr_leave.xml',
         'wizard/task_notes_wizard_views.xml',
         'data/ir_sequence.xml',
         'data/email_template.xml',
