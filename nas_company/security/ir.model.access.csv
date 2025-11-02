@@ -11,3 +11,4 @@ helpdesk_ticket_type_access,helpdesk.ticket.type.access,model_helpdesk_ticket_ty
 task_wizard_note_access,task.wizard.note.access,model_task_note_wizard,,1,1,1,1
 incoming_mail_config_access,incoming.mail.config.access,model_incoming_mail_config,,1,1,1,1
 incoming_mail_subject_access,incoming.mail.subject.access,model_incoming_mail_subject,,1,1,1,1
+access_task_cost_line_user,access_task_cost_line_user,model_project_task_cost_line,,1,1,1,1

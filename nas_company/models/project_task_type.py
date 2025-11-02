@@ -12,3 +12,4 @@ class ProjectTaskType(models.Model):
     mandatory_message = fields.Boolean()
 
 
+

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="action_report_task_cost" model="ir.actions.report">
+            <field name="name">Task Cost (Payroll-based)</field>
+            <field name="model">project.task</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">nas_company.report_project_task_cost</field>
+            <field name="report_file">nas_company.report_project_task_cost</field>
+            <field name="print_report_name">'Task Cost - %s' % (object.display_name)</field>
+        </record>
+
+        <template id="report_project_task_cost">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="task">
+                        <div class="page">
+                            <!-- Centered Task Name -->
+                            <div class="row justify-content-center">
+                                <div class="col-12 text-center">
+                                    <h2 style="text-align: center; margin: 20px 0; color: #2c3e50;">
+                                        Task Name: <span t-esc="task.display_name"/>
+                                    </h2>
+                                </div>
+                                <br/>
+                            </div>
+
+                            <table class="table table-sm o_main_table" style="width:100%; border-collapse: collapse;">
+                                <thead style="background-color: #6c757d; color: white; font-weight: bold; border: 2px solid #495057;">
+                                    <tr>
+                                        <th style="padding: 12px 8px; border: 1px solid #495057; text-align: left;">Employee Name</th>
+                                        <th style="padding: 12px 8px; border: 1px solid #495057; text-align: left;">Task Name</th>
+                                        <th style="padding: 12px 8px; border: 1px solid #495057; text-align: left;">Task Type</th>
+                                        <th style="padding: 12px 8px; border: 1px solid #495057; text-align: right;">Quantity</th>
+                                        <th style="padding: 12px 8px; border: 1px solid #495057; text-align: right;">Percentage %</th>
+                                        <th style="padding: 12px 8px; border: 1px solid #495057; text-align: right;">Avg Cost / Day</th>
+                                        <th style="padding: 12px 8px; border: 1px solid #495057; text-align: right;">Avg Cost of Task</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="task.cost_line_ids" t-as="line">
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <td style="padding: 10px 8px; border: 1px solid #dee2e6; text-align: left;">
+                                                <t t-esc="(line.employee_id and line.employee_id.name) or (line.user_id.name) or ''"/>
+                                            </td>
+                                            <td style="padding: 10px 8px; border: 1px solid #dee2e6; text-align: left;">
+                                                <t t-esc="task.name"/>
+                                            </td>
+                                            <td style="padding: 10px 8px; border: 1px solid #dee2e6; text-align: left;">
+                                                <t t-esc="task.task_type_id.display_name or ''"/>
+                                            </td>
+                                            <td style="padding: 10px 8px; border: 1px solid #dee2e6; text-align: right;">
+                                                <t t-esc="line.quantity"/>
+                                            </td>
+                                            <td style="padding: 10px 8px; border: 1px solid #dee2e6; text-align: right;">
+                                                <t t-esc="('%.2f' % (line.percentage or 0.0))"/>
+                                            </td>
+                                            <td style="padding: 10px 8px; border: 1px solid #dee2e6; text-align: right;">
+                                                <t t-esc="task.company_currency_id.symbol"/>
+                                                <t t-esc="('%.2f' % (line.avg_daily_cost or 0.0))"/>
+                                            </td>
+                                            <td style="padding: 10px 8px; border: 1px solid #dee2e6; text-align: right;">
+                                                <t t-esc="task.company_currency_id.symbol"/>
+                                                <t t-esc="('%.2f' % (line.avg_task_cost or 0.0))"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+
+                            <!-- Footer with calculation notes -->
+                            <div style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 5px; border-left: 4px solid #6c757d;">
+                                <small style="color: #6c757d; font-style: italic;">
+                                    <strong>Calculation Notes:</strong><br/>
+                                    • Avg monthly salary is based on approved payslips from the last 4 months.<br/>
+                                    • Avg daily = monthly average ÷ 30.<br/>
+                                    • Task cost = Quantity × Avg daily × (Percentage ÷ 100).
+                                </small>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

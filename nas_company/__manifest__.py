@@ -38,6 +38,7 @@
         'data/ir_sequence.xml',
         'data/email_template.xml',
         'data/email_activity.xml',
+        'report/project_task_report.xml',
     ],
 
     'license': 'LGPL-3',

@@ -11,6 +11,7 @@
                             <field name="name"/>
                             <field name="calendar"/>
                             <field name="user_can_edit"/>
+                            <field name="percentage"/>
                         </group>
                     </sheet>
 
