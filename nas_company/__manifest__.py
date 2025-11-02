@@ -16,6 +16,7 @@
     'data': [
         'security/res_groups.xml',
         'security/ir.model.access.csv',
+        'report/project_task_report.xml',
         'views/res_company.xml',
         'views/res_config_setting.xml',
         'views/asset_asset_form_view.xml',
@@ -38,7 +39,7 @@
         'data/ir_sequence.xml',
         'data/email_template.xml',
         'data/email_activity.xml',
-        'report/project_task_report.xml',
+
     ],
 
     'license': 'LGPL-3',

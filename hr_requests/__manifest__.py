@@ -23,6 +23,8 @@
         'views/menus.xml',
         'data/mail_activity.xml',
         'data/email_template.xml',
+        'report/hr_letter_report.xml',
+        'report/excperience_certificate_report.xml',
     ],
     'license': 'LGPL-3',
     'installable': True,

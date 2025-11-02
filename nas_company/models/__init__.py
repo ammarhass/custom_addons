@@ -14,3 +14,4 @@ from . import mail_message
 from . import incoming_mail_config
 from . import hr_leave_type
 from . import hr_leave
+from . import account_move_line
