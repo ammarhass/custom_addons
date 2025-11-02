@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_hr_letter_report" model="ir.actions.report">
+            <field name="name">Hr Letter</field>
+            <field name="model">hr.request</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_requests.hr_letter_template</field>
+            <field name="report_file">hr_requests.hr_letter_template</field>
+            <field name="print_report_name">'hr_letter-%s' % object.name</field>
+            <field name="binding_model_id" ref="hr_requests.model_hr_request"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="hr_letter_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="page"
+                             style="font-family: 'DejaVu Sans', 'Arial'; padding: 20px;">
+
+                            <div class="content" style="margin-top: 10px;">
+                                <p style="text-align: center; text-decoration: underline; margin-bottom: 40px;">
+                                    <strong>HR Letter</strong>
+                                </p>
+
+                                <div style="margin-bottom: 30px;">
+                                    <strong>Date:</strong>
+                                    <span t-field="o.create_date" t-options='{"format": "dd/MM/yyyy"}'/>
+                                </div>
+
+                                <div style="margin-bottom: 30px;">
+                                    <strong>To:</strong>
+                                    <span t-field="o.directed_to"/>
+                                </div>
+
+                                <div style="margin: 30px 0;">
+                                    <p style="margin-bottom: 20px;">
+                                        This is to certify that
+                                        <strong>Mr.
+                                            <span t-field="o.employee_id"/>
+                                        </strong>
+                                        ,
+                                        holding National ID number
+                                        <strong>
+                                            <span t-field="o.employee_id.identification_id"/>
+                                        </strong>
+                                        ,
+                                        is currently employed with
+                                        <strong>Nasoft Outsourcing Services Group S.A.E</strong>
+                                        as
+                                        <strong>"<span t-field="o.employee_id.job_id"/>"
+                                        </strong>
+                                        since
+                                        <strong>"<span t-field="o.employee_id.joining_date"/>"
+                                        </strong>
+                                        until date.
+                                    </p>
+
+                                    <p style="margin-bottom: 20px;">
+                                        He is receiving a Monthly Net Salary of
+                                        <strong>EGP
+                                            <span t-field="o.employee_id.contract_id.wage"/>
+                                            (
+                                            <span t-field="o.employee_id.contract_id.wage"
+                                                  t-options='{"widget": "monetary", "display_currency": o.employee_id.contract_id.currency_id}'/>
+                                            Egyptian Pounds)
+                                        </strong>
+                                        .
+                                    </p>
+
+                                    <p style="margin-bottom: 30px;">
+                                        The certificate has been issued upon his request, without any liability on the
+                                        Company.
+                                    </p>
+                                    <div style="margin-top: 60px;">
+                                        <p style="margin-bottom: 0px;">
+                                            <strong>Ahmed Talaat Abdulhalim</strong>
+                                        </p>
+                                        <p style="margin-bottom: 0px;">
+                                            <strong>Human Resources Head</strong>
+                                        </p>
+                                        <p style="margin-bottom: 0px;">
+                                            <strong>Human Resources Department</strong>
+                                        </p>
+
+                                        <p style="margin-bottom: 0px;">
+                                            <strong>Signature:</strong>
+                                        </p>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="header" style="">
+                                <div class="row">
+                                    <div class="col-12" style="padding: 0px !important">
+                                        <img src="/hr_requests/static/src/img/nas_header.png"
+                                             style="height:90px;width:100%" alt="Letter Head"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="footer">
+                                <div class="row">
+                                    <img t-attf-src="/hr_requests/static/src/img/nas_footer.png"
+                                         alt="footer"
+                                         style="padding-left:height:100px;width:100%;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

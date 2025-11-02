@@ -115,6 +115,10 @@
 
                                 </page>
                                 <page string="Embassy Letter Info" invisible="request_type != 'embassy_letter'">
+                                    <group>
+                                        <field name="embassy_name"/>
+                                        <field name="destination_country"/>
+                                    </group>
 
                                 </page>
                                 <page string="Experience Letter Info" invisible="request_type != 'experience_letter'">

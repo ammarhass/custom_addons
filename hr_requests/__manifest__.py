@@ -25,6 +25,7 @@
         'data/email_template.xml',
         'report/hr_letter_report.xml',
         'report/excperience_certificate_report.xml',
+        'report/hr_letter_report_visa.xml',
     ],
     'license': 'LGPL-3',
     'installable': True,

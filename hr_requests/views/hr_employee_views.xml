@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='coach_id']" position="after">
                     <field name="section_id"/>
+                    <field name="joining_date"/>
                 </xpath>
 
                 <xpath expr="//page[last()]" position="after">

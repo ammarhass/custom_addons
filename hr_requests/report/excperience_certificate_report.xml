@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_experience_certificate_report" model="ir.actions.report">
+            <field name="name">Experience Certificate</field>
+            <field name="model">hr.request</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_requests.experience_certificate_template</field>
+            <field name="report_file">hr_requests.experience_certificate_template</field>
+            <field name="print_report_name">'experience_certificate-%s' % object.name</field>
+            <field name="binding_model_id" ref="hr_requests.model_hr_request"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="experience_certificate_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="page"
+                             style="font-family: 'DejaVu Sans', 'Arial'; direction: ltr; text-align: left; padding: 20px; line-height: 1.6;">
+
+                            <!-- Certificate Content -->
+                            <div class="content" style="margin-top: 10px;">
+                                <!-- Title -->
+                                <p style="text-align: center; text-decoration: underline; margin-bottom: 40px; color: #3923BB;">
+                                    <strong>EXPERIENCE CERTIFICATE</strong>
+                                </p>
+
+                                <!-- Date -->
+                                <!--                                <div style="text-align: right; margin-bottom: 30px;">-->
+                                <!--                                    Date: <span t-field="o.create_date" t-options='{"format": "dd/MM/yyyy"}'/>-->
+                                <!--                                </div>-->
+
+                                <!-- Salutation -->
+                                <p style="margin-bottom: 20px; color: #3923BB;">
+                                    <strong>To: whom it may concern,</strong>
+                                </p>
+
+                                <!-- Main Content -->
+                                <div style="margin: 30px 0; color: #3923BB;">
+                                    <p style="margin-bottom: 20px;">
+                                        <strong>Naas</strong>
+                                        hereby certify that
+                                        <strong>
+                                            <span t-field="o.employee_id"/>
+                                        </strong>
+                                        has been employed as
+                                        <strong>
+                                            <span t-field="o.employee_id.job_id.name"/>
+                                        </strong>
+                                        ,
+                                        From
+                                        <strong>
+                                            <span t-field="o.employee_id.joining_date"/>
+                                        </strong>
+                                        To
+                                        <t t-if="o.employee_id.contract_id">
+                                            <strong>
+                                                <span t-field="o.employee_id.contract_id.end_date"/>
+                                            </strong>
+                                            .
+                                        </t>
+                                    </p>
+
+                                    <p style="margin-bottom: 20px;">
+                                        During his employment, he was a reliable and trustworthy employee,
+                                        and we wish for him better opportunities of employment.
+                                    </p>
+
+                                    <p style="margin-bottom: 30px;">
+                                        This certificate is issued upon his request, with no liability on
+                                        <strong>Naas</strong>.
+                                    </p>
+                                </div>
+
+                                <div style="margin-top: 60px;">
+                                    <p style="margin-bottom: 0px;">
+                                        <strong>Ahmed Talaat Abdulhalim</strong>
+                                    </p>
+                                    <p style="margin-bottom: 0px;">
+                                        <strong>Human Resources Head</strong>
+                                    </p>
+                                    <p style="margin-bottom: 0px;">
+                                        <strong>Human Resources Department</strong>
+                                    </p>
+
+                                    <p style="margin-bottom: 0px;">
+                                        <strong>Signature:</strong>
+                                    </p>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="header">
+                            <div class="row">
+                                <div class="col-12" style="padding: 0px !important">
+                                    <img src="/hr_requests/static/src/img/nas_header.png"
+                                         style="height:90px;width:100%" alt="Letter Head"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="footer">
+                            <div class="row">
+                                <img t-attf-src="/hr_requests/static/src/img/nas_footer.png"
+                                     alt="footer"
+                                     style="padding-left:height:100px;width:100%;"/>
+                            </div>
+                        </div>
+
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
+

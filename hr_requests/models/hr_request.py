@@ -135,6 +135,8 @@ class HrRequest(models.Model):
                                              help="The internal orders "
                                                   "related to"
                                                   "this hr request.")
+    embassy_name = fields.Char()
+    destination_country = fields.Char()
 
 
 
